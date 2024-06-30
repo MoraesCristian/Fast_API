@@ -1,0 +1,209 @@
+Para a instalação do poetry utilizar a sequencia de comando no TERMINAL (CMD).
+
+-> pip
+-> pip install pipx
+-> pip install poetry
+
+
+--------------------------------------------------------------------
+		PARA COLOCAR BIBLIOTECAS DENTRO DO POETRY
+
+poetry add fastapi
+
+--------------------------------------------------------------------
+			ATIVAÇÃO DO POETRY
+
+Para a ativação do poetry e pipx nas variáveis de comando utilizar: 
+
+
+Para a utilização das bibliotecas dentro do poetry usar :
+
+-- poetry shell # Faz a ativação do venv
+
+--------------------------------------------------------------------
+		DEPOIS DE FEITA ATIVAÇÃO DO VENV NO CMD
+Utilizar o comando - fastapi dev "nome do arquivo"
+
+	Onde ele vai estar mostrando o que foi efetuado no arquivo.
+
+
+--------------------------------------------------------------------
+	NO APP.GET('/') seria o local da pagina onde vai acessar
+
+Na aplicação estamos utilizando por enquanto - @app.get('/')
+
+mas podemos mudar para o que deseja ex: @app.get('/batatinhafrita')
+
+Seria onde vai dar o retorno da aplicação.
+
+--------------------------------------------------------------------
+	Para gerar a documentação da API basta colocar o domínio
+
++ /docs ex: http://127.0.0.1:8000/docs
+
+Para atualização direto do código.
+
+Faz a auto documentação da documentação.
+
+TEMOS TAMBEM : http://127.0.0.1:8000/redoc
+
+Melhor versão de leitura seria o REDOC
+
+
+			FAMOSO SWAGGER
+
+
+--------------------------------------------------------------------
+	Configurando o servidor de desenvolvimento
+
+ - Ruff -- Um linter e formatador bem poderoso e rápido
+ - Pytest: Para escrevermos os testes
+ - Taskipy - Para não termos que lembrar todos os comandos aplicados
+
+TASKIPY - SALVA OS COMANDOS DIGITADOS EXEMPLO A ABERTURA DO ARQUIVO PYTHON
+
+-- Ruff -- Analisador de código estático (TIPO UM FORMATADOR MAS NÃO É)
+
+Instalando Ruff --> poetry add --group dev ruff
+
+	-- configurando o RUFF - Dentro do pyproject.toml
+adicionar o [tool.ruff]
+
+
+-- Para fazer a verificação dentro do projeto com o ruff
+
+	-- ruff check .
+	-- ruff check . --fix #para efetuar as correções.
+
+-- Para fazer formatação do texto conforme foi colocado no 
+[tools.ruff.format] -- rodar ruff format no terminal para fazer a alteração.
+	-- ruff format . 
+
+----------------------------------------------------------------------
+	TESTS -- Pytest -- Pytest-cov
+
+-- Poetry add --group dev pytest pytest-cov
+
+RODANDO TESTS : 
+
+No terminal: pytest
+
+Para estabelecer uma pasta a ser rodada -> utilizar 
+
+pytest --cov= "nome da pasta sem aspas"
+
+Stmts -- Quantidades de linhas de códigos
+Miss -- Seria a quantidade de testes rodados com test ou sem test
+
+Podemos mudar para a abertura em HTML usando :
+	-- coverage html
+
+para mais retorno de informação dentro do pytest podemos utilizar: -vv
+
+	-- pytest --cov="Nome da pasta sem aspas" -vv
+
+----------------------------------------------------------------------
+	UTILIZANDO TASKPY - UTILIZADO EM TODOS OS SISTEMAS
+
+instalação -- poetry add --group dev taskipy
+
+-- podemos salvar comandos mais digitados dentro do task
+
+-- Adicionando dentro do arquivo .toml
+
+[tool.taskipy.tasks]
+run = "o que queremos"
+run = 'fastapi dev fast_api/app.py'
+test = 'pytest -s -x --cov= fast_api -vv'
+post_test = 'coverage html'
+
+
+PARA UTILIZAR OS COMANDOS USAMOS -- o argumento TASK 
+
+VISUALIZAÇÃO DOS COMANDOS QUE FORAM CRIADOS
+	task --list
+
+Exemplo: task run -- dentro do toml vai estar o código que vai ser executado no código do run.
+
+Podemos passar verbose para o run que vai ser utilizado.
+
+Exemplo task run --help
+
+----------------------------------------------------------------------
+	CRIANDO ARQUIVO .gitignore
+
+USando o IGNR no prompt --> usar o comando 
+
+	ignr -p python
+
+para ele criar o arquivo usar
+	ignr -p python > .gitignore
+
+
+----------------------------------------------------------------------
+						AULA 02 
+
+Conceito basico de LAN --> 
+
+	LAN -> Local LAN como em sua casa ou em uma empresa.
+
+	WAN -> Longa distancia, como diversos roteadores interconectados.
+
+----------------------------------------------------------------------
+
+					ABERTURA DO Projeto LAN
+
+Comando dar inicio na porta de saida padrao->
+		-> fastapi dev fast_api/app.py --host 0.0.0.0
+
+Codigo para descobrir qual porta esta utilizando no seu computador->
+
+- Só rodar isso no Terminal -> Iniciando o python primeiramente
+
+>>> import socket
+>>> s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+>>> s.connect(("8.8.8.8", 80))
+>>> s.getsockname()[0]
+
+----------------------------------------------------------------------
+		3 PILARES DA WEB
+
+URL ->  Localizador Uniforme de Recursos: um endereço de rede pelo qual ppodemos nos comunicar
+com um computador na rede.
+
+HTTP -> Um protocolo que especifica como deve ocorrer a comunicação entre dispositivos.
+
+HTML -> A linguagem usada para criar a estruturar paginas na web.
+
+Podemos utilizar a forma de retorno do site para HTML RESPONSE
+
+	from fastapi.responses import HTMLResponse
+
+
+@app.get('/',status_code = HTTPStatus.OK, response_class=HTMLResponse)
+def read_root():
+	return """
+
+		<html>
+			<head>
+				<title>FAST API</title>
+			</head>
+			<body>
+				<h1>Ola mundo</h1>
+			</body>
+		</html>
+	"""
+
+----------------------------------------------------------------------
+	AULA 03
+
+Padrao de envio quando usuario for criado seria codigo 201 seria status de created
+
+	--status_code=HTTPStatus.CREATED 
+
+utilização de test--
+	Foi feito uma pasta de conftest.py (só é indentificado nesse nome(caso nao tenha reconhecido tem que fazer o import))
+
+
+
+
