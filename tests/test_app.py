@@ -47,8 +47,8 @@ def test_update_user(client):
             'id': 1,
             'username': 'TestUserNamed2',
             'email': 'test@test.com',
-            'password': '123'
-        }
+            'password': '123',
+        },
     )
 
     assert response.json() == {

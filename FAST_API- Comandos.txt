@@ -195,6 +195,8 @@ def read_root():
 	"""
 
 ----------------------------------------------------------------------
+
+
 	AULA 03
 
 Padrao de envio quando usuario for criado seria codigo 201 seria status de created
@@ -205,5 +207,64 @@ utilização de test--
 	Foi feito uma pasta de conftest.py (só é indentificado nesse nome(caso nao tenha reconhecido tem que fazer o import))
 
 
+----------------------------------------------------------------------
 
+
+Aula 04 --> 
+
+Alteração do test_db.py onde ocorre uma repetição de codigo para elaborar o test, e com isso foi criado uma função onde ocorre o conftest.
+
+def test_create_user(session):
+    # # Banco criado em memoria por isso nao tem problema na criação e sempre
+    # # vai estar sendo utilizada a memoria, no caso ele apaga o banco antes
+    # engine = create_engine('sqlite:///:memory:')
+
+    # table_registry.metadata.create_all(engine)
+
+    # with Session(engine) as session:
+    # Isso foi movido para conftest.py, onde foi alocado para um padrao de execução, por isso é passado session para dentro da variavel
+        user = User(username='Cristian',
+                    email='cristian@mail.com',
+                    password='Cristian**123'
+                    )
+
+        session.add(user)
+        session.commit()
+        # session.refresh(user)
+        result = session.scalar(
+            select(User).where(User.email == 'cristian@mail.com')
+        )
+
+    assert result.username == 'Cristian'
+
+----------------------------------------------------------------------
+
+Para exclusao de redepositorio alembic
+
+-- Usar o delete tanto na pasta criada com o nome, e o arquivo .ini que foi gerado pelo alembic
+
+----------------------------------------------------------------------
+
+Iniciando uma migraçao 
+
+1-> env.py dentro da folder migrations
+
+configuramos onde esta o banco de dados ->
+
+from fast_api.settings import Settings
+config = context.config
+config.set_main_option('sqlalchemy.url', Settings().DATABASE_URL)
+
+Fazemos a alteração de dentro dos metadata para o que voce deseja
+
+from fast_api.models import table_registry
+target_metadata = table_registry.metadata
+
+PODEMOS GERAR A MIGRAÇÃO COM ->
+
+alembic revision --autogenerate -m "create users table"
+
+Depois de gerado o arquivo conforme a versao.
+
+2 -> alembic upgrade head
 
