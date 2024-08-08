@@ -184,3 +184,5 @@ database.db
 #TXT
 FAST_API-Comandos.txt
 *.txt
+#.py
+gerando_senha.py
