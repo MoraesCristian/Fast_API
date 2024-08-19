@@ -1,8 +1,11 @@
 from http import HTTPStatus
 
+import pytest
+from fastapi.exceptions import HTTPException
+from fastapi.testclient import TestClient
 from jwt import decode
 
-from fast_api.security import create_access_token, settings
+from fast_api.security import create_access_token, get_current_user, settings
 
 
 def test_jwt():
@@ -17,10 +20,15 @@ def test_jwt():
     assert result['exp']
 
 
-def test_jwt_invalid_token(client):
+def test_jwt_invalid_token(client: TestClient):
     response = client.delete(
         '/users/1', headers={'Authorization': 'Bearer token-invalido'}
     )
 
     assert response.status_code == HTTPStatus.UNAUTHORIZED
     assert response.json() == {'detail': 'Could not validate credentials'}
+
+
+def test_get_current_user_deve_dar_erro_JWT():
+    with pytest.raises(HTTPException):
+        get_current_user({})
