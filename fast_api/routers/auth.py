@@ -9,8 +9,11 @@ from sqlalchemy.orm import Session
 from fast_api.database import get_session
 from fast_api.models import User
 from fast_api.schemas import Token
-from fast_api.security import (create_access_token, get_current_user,
-                               verify_password)
+from fast_api.security import (
+    create_access_token,
+    get_current_user,
+    verify_password,
+)
 
 router = APIRouter(
     prefix='/auth',  # Hash usada para modelagem

@@ -42,17 +42,16 @@ def test_update_user(client, user, token):
         f'/users/{user.id}',
         headers={'Authorization': f'Bearer {token}'},
         json={
-            'id': f'{user.id}',
-            'username': 'Teste',
-            'email': 'teste@teste.com',
-            'password': '123',
+            'username': f'{user.username}',
+            'email': f'{user.email}',
+            'password': 'mynewpassword',
         },
     )
-
+    assert response.status_code == HTTPStatus.OK
     assert response.json() == {
         'id': user.id,
-        'username': 'Teste',
-        'email': 'teste@teste.com',
+        'username': f'{user.username}',
+        'email': f'{user.email}',
     }
 
 
