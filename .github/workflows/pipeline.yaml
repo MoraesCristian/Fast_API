@@ -5,8 +5,26 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    env:
+      DATABASE_URL: ${{secrets.DATABASE_URL}}
+      SECRET_KEY: ${{secrets.SECRET_KEY}}
+      ALGORITHM: ${{secrets.ALGORITHM}}
+      ACCESS_TOKEN_EXPIRE_MINUTE: ${{secrets.ACCESS_TOKEN_EXPIRE_MINUTE}}
+
     steps:
+      - name: Copia os arquivos dos repositorios
+        uses: actions/checkout@v3
+
       - name: Instalar o python 
         uses: actions/setup-python@v5 
         with:
           python-version: '3.12' 
+      
+      - name: Instalar Poetry
+        run: pipx install poetry
+
+      - name: Instalar Dependencias
+        run: poetry install
+      
+      - name: Executar o testes
+        run: poetry run task test
